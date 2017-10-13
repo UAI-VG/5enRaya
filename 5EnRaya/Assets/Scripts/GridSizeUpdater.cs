@@ -11,7 +11,7 @@ public class GridSizeUpdater : MonoBehaviour
     public RectTransform gridRectTransform;
     public HorizontalLayoutGroup buttons;
 
-	void Update ()
+    void Update()
     {
         float w = gridRectTransform.rect.width;
         float h = gridRectTransform.rect.height;
@@ -23,5 +23,5 @@ public class GridSizeUpdater : MonoBehaviour
         float cols = grid.transform.childCount / rows;
         buttons.padding.left = (int)((w - (s * cols) + buttons.spacing) / 2);
         buttons.padding.right = buttons.padding.left;
-	}
+    }
 }
