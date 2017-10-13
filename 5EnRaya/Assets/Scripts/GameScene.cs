@@ -52,22 +52,9 @@ public class GameScene : MonoBehaviour
         UpdateBoard();
         UpdateTurn();
         UpdateButtons();
-
-        if (game.IsOver)
-        {
-            Text winnerText = winnerDialog.GetComponentInChildren<Text>();
-            if (game.Winner == null)
-            {
-                winnerText.text = "¡Empate!";
-            }
-            else
-            {
-                winnerText.text = string.Format("¡El ganador es {0}!", game.Winner.Name);
-            }
-            winnerDialog.SetActive(true);
-        }
+        UpdateWinnerDialog();
     }
-
+    
     private void UpdateBoard()
     {
         Board board = game.Board;
@@ -103,5 +90,22 @@ public class GameScene : MonoBehaviour
     private void UpdateTurn()
     {
         turnText.text = string.Format("Turno: {0}", game.CurrentPlayer.Name);
+    }
+
+    private void UpdateWinnerDialog()
+    {
+        if (game.IsOver)
+        {
+            Text winnerText = winnerDialog.GetComponentInChildren<Text>();
+            if (game.Winner == null)
+            {
+                winnerText.text = "¡Empate!";
+            }
+            else
+            {
+                winnerText.text = string.Format("¡El ganador es {0}!", game.Winner.Name);
+            }
+            winnerDialog.SetActive(true);
+        }
     }
 }
