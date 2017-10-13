@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 100395912}
   - component: {fileID: 100395911}
   - component: {fileID: 100395910}
+  - component: {fileID: 100395914}
   m_Layer: 5
   m_Name: WinnerDialog
   m_TagString: Untagged
@@ -409,7 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d28da3f9283c6784e95c4ff45ddec434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seconds: 0
+  seconds: 2
 --- !u!114 &100395911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,7 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.759}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -462,6 +463,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &100395914
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 100395909}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &183874092
 GameObject:
   m_ObjectHideFlags: 0
@@ -1950,7 +1962,7 @@ MonoBehaviour:
   m_ChildAlignment: 7
   m_StartCorner: 2
   m_StartAxis: 0
-  m_CellSize: {x: 82.1552, y: 82.1552}
+  m_CellSize: {x: 126.88489, y: 126.88489}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 6
@@ -2044,7 +2056,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 75
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 7
     m_MaxSize: 75
@@ -3044,8 +3056,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 47
-    m_Right: 47
+    m_Left: 16
+    m_Right: 16
     m_Top: 15
     m_Bottom: 15
   m_ChildAlignment: 4
