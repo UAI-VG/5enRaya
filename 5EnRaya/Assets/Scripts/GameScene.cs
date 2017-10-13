@@ -14,9 +14,11 @@ public class GameScene : MonoBehaviour
     public Sprite[] playerCellSprites;
     public Sprite emptyCellSprite;
 
+    public GameObject winnerDialog;
+
     private Game game;
-    
-	void Start ()
+
+    void Start()
     {
         InitializeGame();
         InitializeButtons();
@@ -50,6 +52,20 @@ public class GameScene : MonoBehaviour
         UpdateBoard();
         UpdateTurn();
         UpdateButtons();
+
+        if (game.IsOver)
+        {
+            Text winnerText = winnerDialog.GetComponentInChildren<Text>();
+            if (game.Winner == null)
+            {
+                winnerText.text = "¡Empate!";
+            }
+            else
+            {
+                winnerText.text = string.Format("¡El ganador es {0}!", game.Winner.Name);
+            }
+            winnerDialog.SetActive(true);
+        }
     }
 
     private void UpdateBoard()
