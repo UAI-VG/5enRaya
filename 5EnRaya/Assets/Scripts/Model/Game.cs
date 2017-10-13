@@ -6,6 +6,8 @@ public class Game
 {
     private Board board;
     private Player[] players;
+    private Player winner;
+    private bool over = false;
     private int turn = 0;
     public Game(Board board, Player[] players)
     {
@@ -17,6 +19,8 @@ public class Game
     public IEnumerable<Player> Players { get { return players; } }
     public int Turn { get { return turn; } }
     public Player CurrentPlayer { get { return players[turn]; } }
+    public Player Winner { get { return winner; } }
+    public bool IsOver { get { return over; } }
     
     public int IndexOfPlayer(Player player)
     {
@@ -25,10 +29,13 @@ public class Game
 
     public void Play(int column)
     {
+        if (over) return;
         try
         {
             CurrentPlayer.Play(column, board);
-            NextTurn();
+            winner = board.DetectWinner();
+            over = winner != null || board.IsFull;
+            if (!over) { NextTurn(); }
         }
         catch (InvalidOperationException)
         {
