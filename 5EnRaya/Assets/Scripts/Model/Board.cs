@@ -70,63 +70,23 @@ public class Board
         if (token == null) return null;
 
         Player player = token.Player;
-
-        // Horizontal check
+        Func<int, int, bool> check = (c, r) =>
         {
             int count = 1;
             for (int i = 1; i < 5; i++)
             {
-                Token t = Get(col + i, row);
+                Token t = Get(col + i * c, row + i * r);
                 if (t == null) break;
                 if (t.Player != player) break;
 
                 count++;
             }
-            if (count == 5) return player;
-        }
-
-        // Vertical check
-        {
-            int count = 1;
-            for (int i = 1; i < 5; i++)
-            {
-                Token t = Get(col, row + i);
-                if (t == null) break;
-                if (t.Player != player) break;
-
-                count++;
-            }
-            if (count == 5) return player;
-        }
-
-        // Ascending diagonal check
-        {
-            int count = 1;
-            for (int i = 1; i < 5; i++)
-            {
-                Token t = Get(col + i, row + i);
-                if (t == null) break;
-                if (t.Player != player) break;
-
-                count++;
-            }
-            if (count == 5) return player;
-        }
-
-
-        // Descending diagonal check
-        {
-            int count = 1;
-            for (int i = 1; i < 5; i++)
-            {
-                Token t = Get(col + i, row - i);
-                if (t == null) break;
-                if (t.Player != player) break;
-
-                count++;
-            }
-            if (count == 5) return player;
-        }
+            return count == 5;
+        };
+        if (check(1,  0)) return player; // Horizontal 
+        if (check(0,  1)) return player; // Vertical 
+        if (check(1,  1)) return player; // Ascending diagonal 
+        if (check(1, -1)) return player; // Descending diagonal
 
         // No winner found
         return null;
