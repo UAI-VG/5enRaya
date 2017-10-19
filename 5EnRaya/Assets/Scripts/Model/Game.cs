@@ -47,5 +47,6 @@ public class Game
     private void NextTurn()
     {
         turn = (turn + 1) % players.Length;
+        CurrentPlayer.BeginTurn(this);
     }
 }
