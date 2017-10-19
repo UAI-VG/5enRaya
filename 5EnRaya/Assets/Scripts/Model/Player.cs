@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Player
+public abstract class Player
 {
     private string name;
 
@@ -19,4 +19,6 @@ public class Player
         Token token = new Token(this);
         board.Put(token, column);
     }
+
+    public abstract void BeginTurn(Game game);
 }
