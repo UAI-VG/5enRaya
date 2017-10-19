@@ -25,18 +25,23 @@ public class Game
         return Array.IndexOf(players, player);
     }
 
-    public void Play(int column)
+    public void Play(Move move)
     {
         if (IsOver) return;
         try
         {
-            CurrentPlayer.Play(column, board);
+            move.ExecuteOn(board);
             if (!IsOver) { NextTurn(); }
         }
         catch (InvalidOperationException)
         {
-            // Do nothing
+            // Do nothing. Mala práctica!            
         }
+    }
+
+    public void Play(int column)
+    {
+        Play(new Move(column, CurrentPlayer));
     }
 
     private void NextTurn()
