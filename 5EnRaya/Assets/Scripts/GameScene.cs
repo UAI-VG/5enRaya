@@ -29,8 +29,8 @@ public class GameScene : MonoBehaviour
         Board board = new Board(8, 6);
         Player[] players = new Player[]
         {
-            new Player("Jugador 1"),
-            new Player("Jugador 2"),
+            new HumanPlayer("Humano"),
+            new CPUPlayer("CPU"),
         };
         game = new Game(board, players);
     }
