@@ -11,7 +11,12 @@ public class RandomPlayer : CPUPlayer
 
     public override Move GetMove(Board b)
     {
-        int col = rnd.Next(b.Width);
+        int col;
+        do
+        {
+            col = rnd.Next(b.Width);
+        }
+        while (b.ColumnIsFull(col));
         return new Move(col, this);
     }
 }

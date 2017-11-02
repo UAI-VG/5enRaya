@@ -36,13 +36,19 @@ public class DefensivePlayer : CPUPlayer
             {
                 return group.First(sq => board.Get(sq) == null);
             })
+            .Where(sq => board.IsPlaceable(sq))
             .Select(sq => new Move(sq.Column, this))
             .FirstOrDefault();
 
         // No move was found, just move random
         if (move == null)
         {
-            int col = rnd.Next(board.Width);
+            int col;
+            do
+            {
+                col = rnd.Next(board.Width);
+            }
+            while (board.ColumnIsFull(col));
             move = new Move(col, this);
         }
 

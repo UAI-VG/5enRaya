@@ -58,7 +58,27 @@ public class Board
             || sq.Row < 0 
             || sq.Row >= Height;
     }
-    
+
+    public bool IsPlaceable(Square sq)
+    {
+        if (sq.Row == 0) return Get(sq) == null;
+
+        for (int i = 0; i < sq.Row; i++)
+        {
+            if (Get(sq.Column, i) == null) return false;
+        }
+        return true;
+    }
+
+    public bool ColumnIsFull(int col)
+    {
+        for (int i = 0; i < Height; i++)
+        {
+            if (Get(col, i) == null) return false;
+        }
+        return true;
+    }
+
     private int IndexOf(int column, int row)
     {
         return column + row * width;
