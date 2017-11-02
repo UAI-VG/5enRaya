@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameScene : MonoBehaviour
 {
+    public float playerDelay = 1;
     public GameObject gridButtonsPanel;
     public GameObject gridPanel;
     public Text turnText;
@@ -29,14 +30,27 @@ public class GameScene : MonoBehaviour
         Board board = new Board(8, 6);
         Player[] players = new Player[]
         {
-            new Player("Human", 
-                new NullStrategy()),
-            new Player("CPU", 
+            new Player("CPU 1",
+                new RandomStrategy()),
+            new Player("CPU 2", 
                 new AggressiveStrategy(
                 new DefensiveStrategy(
                 new RandomStrategy()))),
         };
         game = new Game(board, players);
+        game.TurnEnded += game_TurnEnded;
+        game.NextTurn();
+    }
+
+    private void game_TurnEnded()
+    {
+        StartCoroutine(NextTurn());
+    }
+
+    private IEnumerator NextTurn()
+    {
+        yield return new WaitForSeconds(playerDelay);
+        game.NextTurn();
     }
 
     private void InitializeButtons()

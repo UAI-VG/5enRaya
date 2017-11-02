@@ -4,9 +4,11 @@ using System.Collections.Generic;
 
 public class Game
 {
+    public event Action TurnEnded = () => { };
+
     private Board board;
     private Player[] players;
-    private int turn = 0;
+    private int turn = -1;
     public Game(Board board, Player[] players)
     {
         this.board = board;
@@ -31,7 +33,7 @@ public class Game
         try
         {
             move.ExecuteOn(board);
-            if (!IsOver) { NextTurn(); }
+            TurnEnded();
         }
         catch (InvalidOperationException)
         {
@@ -44,7 +46,7 @@ public class Game
         Play(new Move(column, CurrentPlayer));
     }
 
-    private void NextTurn()
+    public void NextTurn()
     {
         turn = (turn + 1) % players.Length;
         CurrentPlayer.BeginTurn(this);
