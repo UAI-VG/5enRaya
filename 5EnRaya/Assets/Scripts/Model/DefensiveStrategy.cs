@@ -7,6 +7,9 @@ public class DefensiveStrategy : Strategy
 {
     Random rnd = new Random();
 
+    public DefensiveStrategy(Strategy next) : base(next)
+    {}
+
     public override Move GetMove(Player player, Board board)
     {
         Move move = board.GetGroupsOf(5)
@@ -39,16 +42,10 @@ public class DefensiveStrategy : Strategy
             .Select(sq => new Move(sq.Column, player))
             .FirstOrDefault();
 
-        // No move was found, just move random
+        // No move was found, try next strategy
         if (move == null)
         {
-            int col;
-            do
-            {
-                col = rnd.Next(board.Width);
-            }
-            while (board.ColumnIsFull(col));
-            move = new Move(col, player);
+            move = Next.GetMove(player, board);
         }
 
         return move;
