@@ -30,12 +30,12 @@ public class GameScene : MonoBehaviour
         Board board = new Board(8, 6);
         Player[] players = new Player[]
         {
-            new Player("CPU 1",
-                new RandomStrategy()),
-            new Player("CPU 2", 
+            new Player("Human",
+                new NullStrategy()),
+            new Player("CPU", 
                 new AggressiveStrategy(
-                new DefensiveStrategy(
-                new RandomStrategy()))),
+                    new DefensiveStrategy(
+                        new RandomStrategy()))),
         };
         game = new Game(board, players);
         game.TurnEnded += game_TurnEnded;
