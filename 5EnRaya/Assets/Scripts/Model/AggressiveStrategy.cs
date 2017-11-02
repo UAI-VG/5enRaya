@@ -12,35 +12,42 @@ public class AggressiveStrategy : Strategy
 
     public override Move GetMove(Player player, Board board)
     {
-        Move move = board.GetGroupsOf(5)
-            .Where(group =>
-            {
-                int count = 0;
-                foreach (Square sq in group)
+        Move move = null;
+        int size = 5;
+        while (move == null && size >= 2)
+        {
+            move = board
+                .GetGroupsOf(size)
+                .Where(group =>
                 {
-                    Token t = board.Get(sq);
-                    if (t != null)
+                    int count = 0;
+                    foreach (Square sq in group)
                     {
-                        if (t.Player == player)
+                        Token t = board.Get(sq);
+                        if (t != null)
                         {
-                            count++;
+                            if (t.Player == player)
+                            {
+                                count++;
+                            }
+                            else if (t.Player != null)
+                            {
+                                count--;
+                            }
                         }
-                        else if (t.Player != null)
-                        {
-                            count--;
-                        }
-                    }
 
-                }
-                return count == 4;
-            })
-            .Select(group =>
-            {
-                return group.First(sq => board.Get(sq) == null);
-            })
-            .Where(sq => board.IsPlaceable(sq))
-            .Select(sq => new Move(sq.Column, player))
-            .FirstOrDefault();
+                    }
+                    return count == size - 1;
+                })
+                .Select(group =>
+                {
+                    return group.First(sq => board.Get(sq) == null);
+                })
+                .Where(sq => board.IsPlaceable(sq))
+                .Select(sq => new Move(sq.Column, player))
+                .FirstOrDefault();
+            size--;
+        }
 
         // No move was found, try next strategy
         if (move == null)
