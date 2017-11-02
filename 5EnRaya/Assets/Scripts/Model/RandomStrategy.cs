@@ -5,7 +5,7 @@ using System.Text;
 
 public class RandomStrategy : Strategy
 {
-    Random rnd = new Random();
+    private static Random rnd = new Random();
 
     public RandomStrategy() : base(null)
     {}
