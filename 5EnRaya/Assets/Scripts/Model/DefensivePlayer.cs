@@ -10,54 +10,42 @@ public class DefensivePlayer : CPUPlayer
 
     public override Move GetMove(Board board)
     {
-        for (int col = 0; col < board.Width; col++)
-        {
-            for (int row = 0; row < board.Height; row++)
+        Move move = board.GetGroupsOf(5)
+            .Where(group =>
             {
-                Move move = FindMoveOn(col, row, board);
-                if (move != null) return move;
-            }
-        }
+                int count = 0;
+                foreach (Square sq in group)
+                {
+                    Token t = board.Get(sq);
+                    if (t != null)
+                    {
+                        if (t.Player == this)
+                        {
+                            count--;
+                        }
+                        else if (t.Player != null)
+                        {
+                            count++;
+                        }
+                    }
+
+                }
+                return count == 4;
+            })
+            .Select(group =>
+            {
+                return group.First(sq => board.Get(sq) == null);
+            })
+            .Select(sq => new Move(sq.Column, this))
+            .FirstOrDefault();
 
         // No move was found, just move random
+        if (move == null)
         {
             int col = rnd.Next(board.Width);
-            return new Move(col, this);
+            move = new Move(col, this);
         }
-    }
 
-    private Move FindMoveOn(int col, int row, Board board)
-    {
-        Move move = null;
-        Func<int, int, bool> check = (c, r) =>
-        {
-            move = null;
-            int count = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                Token t = board.Get(col + i * c, row + i * r);
-                if (t == null)
-                {
-                    // Acá hay una vacía
-                    move = new Move(col + i * c, this);
-                }
-                else if (t.Player == this)
-                {
-                    count--; 
-                }
-                else if (t.Player != null)
-                {
-                    count++;
-                }
-            }
-            return count == 4;
-        };
-        if (check(1, 0)) return move; // Horizontal 
-        if (check(0, 1)) return move; // Vertical 
-        if (check(1, 1)) return move; // Ascending diagonal 
-        if (check(1, -1)) return move; // Descending diagonal
-
-        // No move found
-        return null;
+        return move;
     }
 }

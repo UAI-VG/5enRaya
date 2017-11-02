@@ -35,6 +35,11 @@ public class Board
         throw new InvalidOperationException("Column is full!");
     }
 
+    public Token Get(Square sq)
+    {
+        return Get(sq.Column, sq.Row);
+    }
+
     public Token Get(int column, int row)
     {
         return Get(IndexOf(column, row));
@@ -45,50 +50,79 @@ public class Board
         if (index < 0 || index >= tokens.Length) return null;
         return tokens[index];
     }
+
+    public bool IsOutside(Square sq)
+    {
+        return sq.Column < 0 
+            || sq.Column >= Width
+            || sq.Row < 0 
+            || sq.Row >= Height;
+    }
     
     private int IndexOf(int column, int row)
     {
         return column + row * width;
     }
 
-    public Player DetectWinner()
+    public Square[][] GetGroupsOf(int size)
     {
+        List<Square[]> groups = new List<Square[]>();
         for (int col = 0; col < width; col++)
         {
             for (int row = 0; row < height; row++)
             {
-                Player winner = DetectWinnerOn(col, row);
-                if (winner != null) return winner;
+                groups.AddRange(GetGroupsOfOn(size, col, row));
             }
         }
-        return null;
+        return groups
+            .Where(group => !group.Any(sq => IsOutside(sq)))
+            .ToArray();
     }
 
-    private Player DetectWinnerOn(int col, int row)
+    private Square[][] GetGroupsOfOn(int size, int col, int row)
     {
-        Token token = Get(col, row);
-        if (token == null) return null;
-
-        Player player = token.Player;
-        Func<int, int, bool> check = (c, r) =>
+        List<Square[]> groups = new List<Square[]>();
+        Func<int, int, Square[]> check = (c, r) =>
         {
-            int count = 1;
-            for (int i = 1; i < 5; i++)
+            List<Square> group = new List<Square>();
+            int count = 0;
+            for (int i = 0; i < size; i++)
             {
-                Token t = Get(col + i * c, row + i * r);
-                if (t == null) break;
-                if (t.Player != player) break;
-
+                group.Add(new Square(col + i * c, row + i * r));
                 count++;
             }
-            return count == 5;
+            return group.ToArray();
         };
-        if (check(1,  0)) return player; // Horizontal 
-        if (check(0,  1)) return player; // Vertical 
-        if (check(1,  1)) return player; // Ascending diagonal 
-        if (check(1, -1)) return player; // Descending diagonal
+        groups.Add(check(1, 0)); // Horizontal 
+        groups.Add(check(0, 1)); // Vertical 
+        groups.Add(check(1, 1)); // Ascending diagonal 
+        groups.Add(check(1, -1)); // Descending diagonal
 
-        // No winner found
-        return null;
+        return groups.ToArray();
+    }
+
+    public Player DetectWinner()
+    {
+        return GetGroupsOf(5)
+            .Where(group =>
+            {
+                int count = 0;
+                Player player = null;
+                foreach (Square sq in group)
+                {
+                    Token t = Get(sq);
+                    if (t != null)
+                    {
+                        if (player == null) { player = t.Player; }
+                        if (t.Player == player) { count++; }
+                    }
+                }
+                return count == 5;
+            })
+            .Select(group =>
+            {
+                return Get(group[0]).Player;
+            })
+            .FirstOrDefault();
     }
 }
