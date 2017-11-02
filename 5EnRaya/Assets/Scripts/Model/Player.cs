@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public abstract class Player
+public class Player
 {
     private string name;
+    private Strategy strategy;
 
-    public Player(string name)
+    public Player(string name, Strategy strategy)
     {
         this.name = name;
+        this.strategy = strategy;
     }
 
     public string Name { get { return name; } }
+    public Strategy Strategy { get { return strategy; } }
 
     public void Play(int column, Board board)
     {
@@ -20,5 +23,12 @@ public abstract class Player
         board.Put(token, column);
     }
 
-    public abstract void BeginTurn(Game game);
+    public void BeginTurn(Game game)
+    {
+        Move move = Strategy.GetMove(this, game.Board);
+        if (move != null)
+        {
+            game.Play(move);
+        }
+    }
 }

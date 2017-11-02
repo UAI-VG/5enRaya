@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class AggressivePlayer : CPUPlayer
+public class DefensiveStrategy : Strategy
 {
     Random rnd = new Random();
-    public AggressivePlayer(string name) : base(name) { }
 
-    public override Move GetMove(Board board)
+    public override Move GetMove(Player player, Board board)
     {
         Move move = board.GetGroupsOf(5)
             .Where(group =>
@@ -19,13 +18,13 @@ public class AggressivePlayer : CPUPlayer
                     Token t = board.Get(sq);
                     if (t != null)
                     {
-                        if (t.Player == this)
+                        if (t.Player == player)
                         {
-                            count++;
+                            count--;
                         }
                         else if (t.Player != null)
                         {
-                            count--;
+                            count++;
                         }
                     }
 
@@ -37,7 +36,7 @@ public class AggressivePlayer : CPUPlayer
                 return group.First(sq => board.Get(sq) == null);
             })
             .Where(sq => board.IsPlaceable(sq))
-            .Select(sq => new Move(sq.Column, this))
+            .Select(sq => new Move(sq.Column, player))
             .FirstOrDefault();
 
         // No move was found, just move random
@@ -49,7 +48,7 @@ public class AggressivePlayer : CPUPlayer
                 col = rnd.Next(board.Width);
             }
             while (board.ColumnIsFull(col));
-            move = new Move(col, this);
+            move = new Move(col, player);
         }
 
         return move;
