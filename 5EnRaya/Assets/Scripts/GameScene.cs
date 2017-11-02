@@ -30,7 +30,7 @@ public class GameScene : MonoBehaviour
         Player[] players = new Player[]
         {
             new HumanPlayer("Humano"),
-            new DefensivePlayer("CPU"),
+            new AggressivePlayer("CPU"),
         };
         game = new Game(board, players);
     }
