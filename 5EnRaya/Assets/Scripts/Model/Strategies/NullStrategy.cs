@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class NullStrategy : Strategy
+namespace CincoEnRaya.Model.Strategies
 {
-    public NullStrategy() : base(null) {}
-
-    public override Move GetMove(Player player, Board board)
+    public class NullStrategy : Strategy
     {
-        // Wait for human input
-        return null;
+        public NullStrategy() : base(null) { }
+
+        public override Move GetMove(Player player, Board board)
+        {
+            // Wait for human input
+            return null;
+        }
     }
 }

@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Token
+namespace CincoEnRaya.Model
 {
-    private Player player;
-
-    public Token(Player player)
+    public class Token
     {
-        this.player = player;
+        private Player player;
+
+        public Token(Player player)
+        {
+            this.player = player;
+        }
+
+        public Player Player { get { return player; } }
     }
-
-    public Player Player { get { return player; } }
 }
-

@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Move
+namespace CincoEnRaya.Model
 {
-    private int column;
-    private Player player;
-
-    public Move(int column, Player player)
+    public class Move
     {
-        this.column = column;
-        this.player = player;
-    }
+        private int column;
+        private Player player;
 
-    public int Column { get { return column; } }
-    public Player Player { get { return player; } }
+        public Move(int column, Player player)
+        {
+            this.column = column;
+            this.player = player;
+        }
 
-    public void ExecuteOn(Board board)
-    {
-        Player.Play(Column, board);
+        public int Column { get { return column; } }
+        public Player Player { get { return player; } }
+
+        public void ExecuteOn(Board board)
+        {
+            Player.Play(Column, board);
+        }
     }
 }

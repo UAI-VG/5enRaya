@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using CincoEnRaya.Model;
+using CincoEnRaya.Model.Strategies;
+
 public class GameScene : MonoBehaviour
 {
     public float playerDelay = 1;
