@@ -7,8 +7,11 @@ namespace CincoEnRaya.Model.Strategies
 {
     public class AggressiveStrategy : Strategy
     {
-        public AggressiveStrategy(Strategy next) : base(next)
-        { }
+        private Strategy next;
+        public AggressiveStrategy(Strategy next)
+        {
+            this.next = next;
+        }
 
         public override Move GetMove(Player player, Board board)
         {
@@ -51,7 +54,7 @@ namespace CincoEnRaya.Model.Strategies
             // No move was found, try next strategy
             if (move == null)
             {
-                move = Next.GetMove(player, board);
+                move = next.GetMove(player, board);
             }
 
             return move;

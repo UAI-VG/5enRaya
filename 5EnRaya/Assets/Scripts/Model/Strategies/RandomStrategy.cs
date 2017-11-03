@@ -8,10 +8,7 @@ namespace CincoEnRaya.Model.Strategies
     public class RandomStrategy : Strategy
     {
         private static Random rnd = new Random();
-
-        public RandomStrategy() : base(null)
-        { }
-
+        
         public override Move GetMove(Player player, Board board)
         {
             int col;

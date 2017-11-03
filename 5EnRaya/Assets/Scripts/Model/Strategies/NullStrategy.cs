@@ -7,8 +7,6 @@ namespace CincoEnRaya.Model.Strategies
 {
     public class NullStrategy : Strategy
     {
-        public NullStrategy() : base(null) { }
-
         public override Move GetMove(Player player, Board board)
         {
             // Wait for human input
