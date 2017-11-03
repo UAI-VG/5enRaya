@@ -11,6 +11,7 @@ namespace CincoEnRaya.Model
         private Board board;
         private Player[] players;
         private int turn = -1;
+        private bool playing = false;
         public Game(Board board, Player[] players)
         {
             this.board = board;
@@ -23,6 +24,7 @@ namespace CincoEnRaya.Model
         public Player CurrentPlayer { get { return players[turn]; } }
         public Player Winner { get { return board.DetectWinner(); } }
         public bool IsOver { get { return Winner != null || board.IsFull; } }
+        public bool Playing { get { return playing && !IsOver; } }
 
         public int IndexOfPlayer(Player player)
         {
@@ -31,10 +33,11 @@ namespace CincoEnRaya.Model
 
         public void Play(Move move)
         {
-            if (IsOver) return;
+            if (!Playing) return;
             try
             {
                 move.ExecuteOn(board);
+                playing = false;
                 TurnEnded();
             }
             catch (InvalidOperationException)
@@ -51,6 +54,7 @@ namespace CincoEnRaya.Model
         public void NextTurn()
         {
             turn = (turn + 1) % players.Length;
+            playing = true;
             CurrentPlayer.BeginTurn(this);
         }
     }
