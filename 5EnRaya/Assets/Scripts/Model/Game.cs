@@ -34,15 +34,11 @@ namespace CincoEnRaya.Model
         public void Play(Move move)
         {
             if (!Playing) return;
-            try
+            if (move.IsValidOn(board))
             {
                 move.ExecuteOn(board);
                 playing = false;
                 TurnEnded();
-            }
-            catch (InvalidOperationException)
-            {
-                // Do nothing. Mala práctica!            
             }
         }
 
