@@ -53,6 +53,11 @@ namespace CincoEnRaya.Model
             return tokens[index];
         }
 
+        public bool IsInside(Square sq)
+        {
+            return !IsOutside(sq);
+        }
+
         public bool IsOutside(Square sq)
         {
             return sq.Column < 0
@@ -97,28 +102,26 @@ namespace CincoEnRaya.Model
                 }
             }
             return groups
-                .Where(group => !group.Any(sq => IsOutside(sq)))
+                .Where(group => group.All(sq => IsInside(sq)))
                 .ToArray();
         }
 
         private Square[][] GetGroupsOfOn(int size, int col, int row)
         {
             List<Square[]> groups = new List<Square[]>();
-            Func<int, int, Square[]> check = (c, r) =>
+            Func<int, int, Square[]> group = (c, r) =>
             {
-                List<Square> group = new List<Square>();
-                int count = 0;
+                List<Square> squares = new List<Square>();
                 for (int i = 0; i < size; i++)
                 {
-                    group.Add(new Square(col + i * c, row + i * r));
-                    count++;
+                    squares.Add(new Square(col + i * c, row + i * r));
                 }
-                return group.ToArray();
+                return squares.ToArray();
             };
-            groups.Add(check(1, 0)); // Horizontal 
-            groups.Add(check(0, 1)); // Vertical 
-            groups.Add(check(1, 1)); // Ascending diagonal 
-            groups.Add(check(1, -1)); // Descending diagonal
+            groups.Add(group(1, 0)); // Horizontal 
+            groups.Add(group(0, 1)); // Vertical 
+            groups.Add(group(1, 1)); // Ascending diagonal 
+            groups.Add(group(1, -1)); // Descending diagonal
 
             return groups.ToArray();
         }
@@ -141,10 +144,7 @@ namespace CincoEnRaya.Model
                     }
                     return count == 5;
                 })
-                .Select(group =>
-                {
-                    return Get(group[0]).Player;
-                })
+                .Select(group => Get(group[0]).Player)
                 .FirstOrDefault();
         }
     }
