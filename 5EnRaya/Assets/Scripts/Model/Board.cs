@@ -5,7 +5,6 @@ using System.Text;
 
 namespace CincoEnRaya.Model
 {
-
     public class Board
     {
         private int width;

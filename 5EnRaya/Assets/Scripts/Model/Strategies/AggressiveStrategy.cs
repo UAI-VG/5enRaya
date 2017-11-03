@@ -7,8 +7,6 @@ namespace CincoEnRaya.Model.Strategies
 {
     public class AggressiveStrategy : Strategy
     {
-        Random rnd = new Random();
-
         public AggressiveStrategy(Strategy next) : base(next)
         { }
 
@@ -37,7 +35,6 @@ namespace CincoEnRaya.Model.Strategies
                                     count--;
                                 }
                             }
-
                         }
                         return count == size - 1;
                     })

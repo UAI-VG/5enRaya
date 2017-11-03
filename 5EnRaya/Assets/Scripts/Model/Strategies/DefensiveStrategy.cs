@@ -7,8 +7,6 @@ namespace CincoEnRaya.Model.Strategies
 {
     public class DefensiveStrategy : Strategy
     {
-        Random rnd = new Random();
-
         public DefensiveStrategy(Strategy next) : base(next)
         { }
 
@@ -32,7 +30,6 @@ namespace CincoEnRaya.Model.Strategies
                                 count++;
                             }
                         }
-
                     }
                     return count == 4;
                 })
