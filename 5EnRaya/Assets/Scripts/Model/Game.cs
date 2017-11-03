@@ -33,8 +33,7 @@ namespace CincoEnRaya.Model
 
         public void Play(Move move)
         {
-            if (!Playing) return;
-            if (move.IsValidOn(board))
+            if (Playing && move.IsValidOn(board))
             {
                 move.ExecuteOn(board);
                 playing = false;
