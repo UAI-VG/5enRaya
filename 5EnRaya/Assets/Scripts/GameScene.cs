@@ -37,8 +37,15 @@ public class GameScene : MonoBehaviour
                 new NullStrategy()),
             new Player("CPU", 
                 new AggressiveStrategy(
+                    5,
                     new DefensiveStrategy(
-                        new RandomStrategy()))),
+                        new AggressiveStrategy(
+                            4, 
+                            new AggressiveStrategy(
+                                3,
+                                new AggressiveStrategy(
+                                    2, 
+                                    new RandomStrategy())))))),
         };
         game = new Game(board, players);
         game.TurnEnded += game_TurnEnded;
