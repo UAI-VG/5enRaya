@@ -66,10 +66,17 @@ namespace CincoEnRaya.Model
                 || sq.Row >= Height;
         }
 
+        /// <summary>
+        /// Returns true if a token can be placed in the given square.
+        /// </summary>
+        /// <param name="sq">The square to check</param>
+        /// <returns></returns>
         public bool IsPlaceable(Square sq)
         {
+            // If the square is in bottom row we just check if it's empty
             if (sq.Row == 0) return Get(sq) == null;
 
+            // Otherwise, we check that all the squares below are occupied
             for (int i = 0; i < sq.Row; i++)
             {
                 if (Get(sq.Column, i) == null) return false;
@@ -111,12 +118,9 @@ namespace CincoEnRaya.Model
             List<Square[]> groups = new List<Square[]>();
             Func<int, int, Square[]> group = (c, r) =>
             {
-                List<Square> squares = new List<Square>();
-                for (int i = 0; i < size; i++)
-                {
-                    squares.Add(new Square(col + i * c, row + i * r));
-                }
-                return squares.ToArray();
+                return Enumerable.Range(0, size)
+                    .Select(i => new Square(col + i * c, row + i * r))
+                    .ToArray();
             };
             groups.Add(group(1, 0)); // Horizontal 
             groups.Add(group(0, 1)); // Vertical 
