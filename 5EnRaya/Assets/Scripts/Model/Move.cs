@@ -19,6 +19,11 @@ namespace CincoEnRaya.Model
         public int Column { get { return column; } }
         public Player Player { get { return player; } }
 
+        public bool IsValidOn(Board board)
+        {
+            return !board.ColumnIsFull(Column);
+        }
+
         public void ExecuteOn(Board board)
         {
             Player.Play(Column, board);
